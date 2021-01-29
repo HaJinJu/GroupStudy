@@ -1,0 +1,281 @@
+Git
+
+Git은 버전 관리 시스템(VCS, Version Control System) 중 가장 유명한 프로그램이다.
+Github은 그러한 Git의 데이터를 저장하는 서버이다.
+
+Git은 왜 필요할까?
+예를 들어, 현재 버전 1을 내놓은 앱이 있다.
+개발자들이 버전 1.1 업데이트를 만들어 실행했더니 작동이 되지 않았다.
+다시 버전 1로 돌아가려고 했지만 많은 부분들이 수정된 1.1을 수정하는 것은
+사실상 불가능하다.
+그래서 나온게 VCS이다. 버전 1코드 따로, 버전 1.1코드 따로 그리고 추 후에
+나올 버전 2코드 따로 서버에 저장해두어 현재 만든 버전이 작동하지 않을 시
+서버에서 잘 작동하는 이전 버전의 코드를 가져와 사용하면 된다.
+
+그러나 버전 2를 개발하고 있는 어느날, 갑자기 이유없이 서버가 터졌다.
+역시나 버전2에서 에러가 났지만, 서버가 터져 버전 1.1코드가 날아가 돌이킬 수가 없게 됐다.
+개발자들은 어떻게 버전 관리를 효율적으로 할 수 있을까 고민하기 시작했다.
+그러다 떠오른 게 바로 백업을 하는 것이다. 따로 서버를 만드는 것이 아닌
+개발자 각자의 컴퓨터에 저장하고 서버가 터지면 개발자 중한 명의 컴퓨터에 저장해둿던
+이전 버전을 다시 서버로 올리고 다른 사람들은 그것을 다운받으면 된다.
+
+이렇게 여려 대의 컴퓨터와 하나의 메인 서버가 소통하는 방식이 바로
+Git(컴퓨터들)과 Github(서버)의 관계다. 코드가 서버에만 있는 게 아니라
+각자의 컴퓨터에 분산되어 있기 때문에 분산형 버전 관리 시스템(DVCS, Distibuted VCS)
+라고 부른다.
+
+Git의 장점 중 하나는 자유롭게 코드를 뗏다 붙일 수 있다는 것이다.
+이전 버전으로 되돌리는 것 뿐 아니라, 새로운 기능을 만들 때도 자유롭게 코드를 추가하고
+문제가 발생하면 바로 삭제할 수 있다.
+
+또한 여러 사람이 동시에 개발을 하는 것도 편리하다.
+예를 들어, 회세아 A, B, C라는 세 개발팀이 있다고 가정해보자.
+무턱대고 코딩을 했더니 서로 코드가 충돌해 하나로 합칠 수 없었다.
+하지만 Git에서는 어떤 부분이 총들이 일어나는 지를 보기 쉽게 알려준다.
+
+서버는 Github만 있는 게 아니라 자체적으로도 구축 가능하다.
+하지만 편하게 개발하고 싶다면 Gitgub에 일정 돈을 주고 서버를 빌리면 된다.
+Github의 장점은 오픈 소스는 무료로 서버를 제공해준다는 것이다.
+(비공개 소스 업로드 시 요금 발생)
+
+-----------------------------------------------------------------------
+Git 저장소 생성 (init)
+
+(I)윈도우의 명령프롬프트나 터미널 모두 명령어가 같다.
+
+git init -
+
+가장 먼저 프로젝트 경로로 이동한다. (cd [경로]) 그리고 git init을 친다.
+그러면 .git 이라는 숨김 폴더가 생성된다. 이렇게 Git이 만들어진다!
+
+git status -
+현재 파일들의 상태를 볼 수 있다.
+처음 Git을 init했을 때의 상태를 보면 Untracked files를 볼 수 있을 것이다.
+Untracked files는 commit이 불가능한 파일이라는 뜻이다.
+저 파일들을 commit가능한 파일로 만들기 위해서는 git add [파일이름]을 해야한다.
+
+git add -
+add된 파일들은 초록색으로 보일 것이다. (Untracked file은 빨간색으로 표시)
+초록색이 된 파일들은 commit 대기 주임을 알린다.
+
+git add. -
+Untracked files에 있는 모든 파일들을 Commit 가능한 파일로 만든다.
+
+git commit -
+commit 대기중인 파일들을 commit한다.
+git commit -m [설명] 커밋 내용의 설명을 할 수 있다.
+
+주의할 점은 로그인을 안 한 경우 에러가 뜬다. 그때는
+git config --global user.email"내 이메일" 혹은
+git config --global user.email"내 이름" 명령을해 자기 정보를 등록하고 이용한다.
+
+git commit -am [설명] -
+위 명령어로 add와 commit을 한 번에 할 수 있다.
+
+git log -
+commit 내역을 볼 수 있는 명령어다.
+차곡차곡 쌓이는 commit은 되돌릴 수도 있고 서로 합칠 수도 있다.
+
+Untracked --add--> tracked
+커밋 불가            커밋 가능
+
+--------------------------------------------------------------------
+Github 사용하기, remote, clone, push, pull
+
+가장 처음으로는 Github 저장소(repository)를 만들어야한다.
+저장소를 만들면 기본적으로 README파일, .gitignore, license 파일이 만들어지는데,
+README.md 파일은 현재 저장소의 설명을 자세하게 적어두는 파일이다.
+.gitignore는 Track하지 않을 파일들 명단을 적어놓는 곳이다.
+license 이 소프트웨어의 라이센스가 무엇인지 정할 수 있다.
+
+저장소를 클릭해서 들어가면 Watch, Star, Fork 가 가장먼저 보일 것이다.
+Watch는 이 저장소에 변화가 있을 시 알림을 보내는 설정이고, Star는 즐겨찾기,
+Fork는 이 저장소를 복사해 내 저장소에 붙여넣기 하는 기능이다.
+
+그 아래에는 Code, Issues, Pull request(PR) 등등이 있는데
+Code는 저장된 파일들을 보는 공간이다.
+Issues는 남들이 자기 저장소를 쓰는데 문제가 생길 경우 문제를 제기하는 공간이다.
+Pullrequest는 남들이 코드를 직접 수정해서 올려주는 곳이다. PR을 통해 남의
+코드에 기여할 수도 있고 기여받을 수도 있다.
+
+git remote -
+원격 저장소를 관리할 수 있는 명령어다. git remote add origin [저장소 주소]
+이 명령어로 origin이라는 이름의 원격 저장소를 등록할 수 있다.
+(굳이 origin일 필요는 없음)
+만약 origin이라는 원격 저장소를 지우고 싶다면 git remote remove origin 하면 된다.
+
+git push -
+이제 원격 저장소와도 연결했으니 원격 저장소에 commit을 저장해보자.
+git push origin master 를 입력해 저장할 수 있다.
+origin은 저장소 이름이고 master는 현재 사용하는 컴퓨터의 브랜지 이름이다.
+master가 현재 commit이 저장된 곳이라고만 일단 알아두자!
+저장소에 저장된 파일들은 (오픈 소스라면) 모두가 볼 수 있다.
+
+git pull -
+다른 사람이 PR을 통해서 코드를 업데이트했거나 Github를 통해서 commit했을 때
+그 내용을 클라이언트로 내려받는 명령어다. git pull origin master 를 입력하면
+origin의 내용이 master로 복사된다.
+
+git clone -
+git clone은 git pull과 유사하지만 클라이언트 상에 아무것도 없을 때
+서버의 프로젝트를 내려받는 명령어다. git clone [저장소 주소]를 입력하면 된다.
+저장소의 내용을 다운받고 자동으로 init도 한다.
+
+------------------------------------------------------------------
+Git commit 수정하기, diff, checkout, revert ,reset
+
+Git에는 크게 두 가지 상태가 있다고 배웠다. Untracked와 Tracked 파일이다.
+Untracked는 Git 버전관리에 포함되지 않은 파일이고, Tracked는 포함된 파일이다.
+여기서 다시 Tracked는 세 가지 상태로 나뉜다.
+
+수정된 파일도 직접 add를 해주어야 다음 commit때 반영된다. commit은 git에서는
+하나의 단위로 취급된다. 딸서 최대한 잘게 comiit을 해주는 게 좋다. 그래야 나중에
+자유자재로 원하는 부분만 되돌릴 수 있다.
+
+git diff -
+수정된 파일에서 어떤 부분이 달라졌는지 확인하고 싶다면 git diff 를 입력하면 된다.
+
+Untracked      Unmodified      Modified      Staged
+-----------------Add the file----------------->
+                 ---Edit filed---->
+    <--Remove file---              --Stage file->
+                    <------------Commit--------
+위 의 그림은 Untracked와 Tracked의 3단계를 보여준다.
+총 3단계로 Unmodified, Modified, Staged가 있는데
+Untracked 파일을 add하면 Staged상태가 된다. (Staged는 Tracked 상태이다.)
+Staged상태의 파일을 commit하면 Unmodified파일이 된다. 근데 나중에 수정할 것이
+생겨 파일을 수정하게 되면 Modified상태가 된다. 수정된 파일을 다시 add해
+Staged상태로 만들고 commit한다.
+
+git checkout -
+Modified된 파일을 잘못 수정해 원상태로 되돌리고 싶을 때
+git checkout [파일명.확장자]를 입력하면 이전 상태로 되돌아 온다.
+
+git reset -
+만약 add까지 해서 Staged 상태의 파일은 git reset [파일명.확장자]을 입력하면
+Staged 상태에서 Modifie 상태로 돌아간다. 그 후 git checkout [파일명.확장자]
+를 입력하면 원래대로 되돌아 간다.
+git reset에는 세 가지 옵션이 있다.
+--soft, --mixed, --hard
+--soft는 파일들을 커밋 후의 Unmodified에서 커밋 전의 Staged상태로 만든다.
+--mixed는 Unmodified에서 커밋 전의 Modified 상태로 만든다.
+--hard는 Unmodified에서 커밋 전의 Unmodified로 만듭니다. 즉 다 날린다.
+
+git revert -
+revert는 reset과 비슷하지만 이전 commit 내용을 새 commit으로 만들어 저장한다.
+reset은 이전 commit으로 직접 되돌아갔다면 revert는 현재 commit 위에 이전
+commit을 덮어 씌웠기 때문에 새로운 commit이 하나 추가된다.
+
+굳이 revert를 사용하는 이유가 무엇일까?
+revert는 이미 commit을 push해서 저장소에 가버린 경우 사용한다.
+서버에는 이지 잘못된 commit이 저장되기 때문에 클라이언트에서 reset을 해봤자
+서버에서는 되돌릴 수 없다. 서버에서는 되돌릴 수 없다.
+그래서 commit을 덮어쓰는 revert 방법을 선택하는 것이다.
+
+------------------------------------------------------------------
+Git 브랜치(Branch) 관리
+
+이해를 돕기위해 다음 두 상황을 가정해보자.
+
+1) 혼자 작업할 떄:
+현재 홈페이지를 만들고 있다가 실시간 알림기능을 추가하고 싶어졌다.
+하지만 한 번에 만들 수 있을거라는 확신이 없어 무수히 많은 commit을 해야
+완성할 수 있을 것 같다. 그리고 실패 시에는 commit을 이전으로 되돌리고 싶은데
+그렇다고 현재 master 브랜치의 log가 지저분해지는 것은 원하지 않는다.
+
+2) 협업할 때:
+A와 B 두 명이서 협업을 하는 상황이다. Github에 코드를 올려놓고 각자 다운로드받아
+코딩을 하고 있다. 두 명이 각자 다른 파일을 작업하면 별 걱정이 없겠지만
+하나의 파일을 둘이 동시에 작업하고 있다. 문제는 이렇게 여러 명이 같은 파일을
+작업해서 commit한 후, 동시에 Github에 push를 하면 충돌이 생긴다는 것이다.
+왜냐하면 A가 한 commit은 B에겐 없고, B가 한 commit은 A에게 없어
+Github서버는 어떤 것이 올바른 commit인지 알 수 없기 때문이다.
+
+위와 같은 상황에서 우리는 branch 기능을 사용한다. 기본적으로 생성되는
+master 브랜치 말고 다른 브랜치를 만들어 사용하는 것이다.
+위의 예시는 다른 브랜치를 사용하는 이유이고, 또 하나의 이유는 실제 환경에선
+master 브랜치에 배포 준비가 된 commit들만 남기는 경우가 많기 때문이다.
+예를 들어 제로초 블로그는 origin master 브랜치의 commit을 push하는 순간
+자동으로 홈페이지가 업데이트 된다. 만약 실수로 에러가 있는 master 브랜치의
+commit을 push하면 홈페이지에 에러가 발생한다.
+그런 상황을 막기위해 다른 branch를 만들고 그곳에서 작업을 한다.
+실수로 push를 해도 master 브랜치와는 관계가 없기때문에 안심할 수 있다.
+
+Git GUI 보는법:
+최신 commit인 Revert "Second commit"에 master가 위치해 있다.
+master는 master 브랜치의 가장 최근 commit을 가리킨다. HEAD(노란 원)에는
+현재 내가 작업 중인 commit의 위치를 가리킨다. First commit 에는
+remotes/origin/master가 있는데 예전에 원격 저장소로 push했음을 표시하고 있다.
+
+git branch -
+git branch [브랜치명]을 입력하면 브랜치를 만들 수 있다.
+git branch를 입력하면 현재 존재하는 branch 리스트를 볼 수 있다.
+ * 가 있는 branch가 현재 HEAD가 있는 branch다.
+
+git checkout -
+git checkout은 Modified파일을 Unmodified로 되돌리는 명령어라 배웠다.
+git checkout을 브랜치에 사용한 경우엔 브랜치간 전환을 한다.
+
+이제 여러 명의 사람들이 작업할 때에는 각자 브랜치를 만들어 따로 작업하면 된다.
+한 사람의 작업이 다른 사람에게 영향을 미치지 않는다.
+이제 각 브랜치에서 한 작업을 하나로 모아야한다. master 브랜치로 돌아가고
+브랜치를 합치는 명령어를 입력하면 된다.
+
+-----------------------------------------------------------------------------
+Merge와 Rebase
+
+git merge -
+git merge [브랜치명] 을 입력하면 브랜치를 합칠 수 있다.
+이 때는 바탕이 되는 브랜치에서, 합치고 싶은 브랜치를 merge하는 것이 중요하다.
+터미널에 merge의 결과로 Fast-forward라고 표시가 될텐데 이것은 master 브랜치를 앞으로
+쭉 당겼다는 뜻이다. 새로 생성한 브랜치가 master 브랜치보다 한 commit 앞에 있었기 때문에
+master 브랜치가 새로운 브랜치를 merge하는 순간 한 commit 앞으로 당겨지는 방식이다.
+
+conflict
+하지만 모든 merge가 순조롭게 되는 것은 아니다. branch끼리의 충돌이 나기도 한다.
+
+git reset HEAD~1으로 master branch를 뒤로 돌려보자. 그럼 다시 브랜치는 두 갈래로
+갈라질 것이다. 충돌을 발생시키고 다시 merge를 하면 충돌 오류가 발생할 것이다.
+충돌이 발생하면 발생한 지점을 직접 정상적으로 바꾸고 add후 commit해야 한다.
+
+git rebase -
+두 브랜치를 합치는 다른 방법은 git rebase이다. 충돌이 발생한 경우 충돌을 해결하고
+add하는 것 까지는 또같지만 merge는 그 후에 commit을 해야 했지만 rebase는
+git rebase --continue를 입력해 중단된 rebase를 이어갈 수 있다.
+
+------------------------------------------------------------------------------
+기타 Git 명령어 (cherry-pick, tag, fetch, shortlog, stash
+
+cherry-pick
+여기서 체리는 commit을 의미한다. 다른 브랜칭서 commit 중 하나를 골라 현재 브랜치에 넣는다.
+merge 나 rebase 처럼 다른 브랜치를 통째로 가져오는 것과는 차이가 있다.
+git cherry-pick [commit명] commit명은 Git 자체에 붙은 고유 값인데 랜덤한 문자이다.
+git log를 통해 알 수 있다.
+
+git tag
+commit에 태그를 붙이는 기능이다. 커밋에 태그를 붙이고 cherry-pick 으로 쉽게 가져올 수 있다.
+주로 새로운 버전이 나왔거나 특정 기능을 가진 commit에 tag를 붙여준다.
+git tag -a v1.0.0 이렇게 하면 git cherry-pick v1.0.0으로 선택할 수 있다.
+
+git fetch
+git pull은 서버의 변경점을 서버의 변경점을 클라이언트로 내려받는 명령어이다.
+그런데 사실 git pull은 두 개의 단계로 구성되어 있다. 바로 git fetch와 git merge이다.
+git pull을 하는 순간 내부적으로는 저 두개의 명령어가 호출되는데 git fetch는 서버의 변경점을
+별개의 브랜치로 만드는 것이고, git merge는 그 브랜치를 합치는 것이다.
+git fetch 명령어만 실행하면 merge하지 않고 변경점을 확인할 수 있다.
+
+git shortlog
+commit 메시지만 추려서 보여준다.
+
+git stash, git unstash
+현재 변경점을 저장할 수 있다. commit과는 다른 의미의 저장이다.
+한 브랜치에서 작업을 하다 잠깐 다른 브랜치에서 작업할 일이 생겼을 때 주로 사용한다.
+현재까지의 변경사항을 저장하고 다른 브랜치로 넘어갔다가, 다시 돌아왔을때 복구 할 수 있다.
+
+git checkout의 두 가지 기능
+1. 파일에 적용된 경우 : modified -> unmodified
+2. 브랜치에 적용된 경우 : 브랜치간 이동
+
+두 가지 기능이 각각 새로운 명령어를 가지게 되었다. (git 2.23 버전 부터)
+1. git switch
+2. git restore
