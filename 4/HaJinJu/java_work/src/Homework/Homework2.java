@@ -8,7 +8,7 @@ public class Homework2 {
         int[] arr = new int[ARRSIZE];
 
         for(int i = 0; i < ARRSIZE; i++) {
-            arr[i] = (int)(Math.random() * 5) + 3;
+            arr[i] = (int)(Math.random()*5 )+3 ;
             System.out.printf("arr[%d] = %d\n", i, arr[i]);
         }
     }

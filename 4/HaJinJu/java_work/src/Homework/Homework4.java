@@ -13,7 +13,7 @@ public class Homework4 {
 
             for(int i = 0; i < ARRSIZE; i++) {
                 // nextFloat은 실수를 뽑으며 범위는 0.0 ~ 1.0
-                arr[i] = rand.nextFloat() * 10;
+                arr[i] = rand.nextFloat() *10 ;
                 // %d 는 정수형, %f 는 실수형
                 System.out.printf("arr[%d] = %f\n", i, arr[i]);
             }

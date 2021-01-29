@@ -12,7 +12,7 @@ public class InputArrayFibonacci {
             System.out.println("잘못된 입력입니다!");
             return;
         } else if(num < 3) {
-            System.out.printf("%d 번째 피보나치 항은 = %d\n", num, FIXVALUE);
+            System.out.printf(" %d번째 피보나치 항은 = %d\n", num, FIXVALUE);
             // return 이후 현재 프로그램은 더 이상 동작하지 않는다.
             // 실제로는 매서드를 종료한 것인데
             // 현재는 아직 클래스 학습하지 않았으므로
